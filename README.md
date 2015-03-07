@@ -8,34 +8,31 @@ rondinellimorais@gmail.com
 
 ## Overview ##
 
-The HelperLibrary framework is a simple iOS static library that contains all work
+The HelperLibrary framework is a static library iOs simple that contains all the implementation of the silly and repetitive work you have to do every time you create a new iOS / OSX project.
 
-A framework HelperLibrary é uma iOs static library simples que contem toda a implementação do trabalho bobo e repetitivo que você tem que fazer toda vez que cria um novo projeto iOs/OSX.
+HelperLibrary contains a main class called `UtilHelper.h` which is full of silly work that I have been adding since I started working with iOS SDK. Below is a brief list of things we can do with HelperLibrary:
 
-HelperLibrary contem uma classe principal chamada `UtilHelper.h` que é recheada de trabalho bobo que venho adicionando desde que comecei a trabalhar com iOS SDK. Abaixo está uma lista resumida das coisas que podemos fazer com HelperLibrary:
+- Create a representation `UIColor` from the RGB code
+- Calculate the height of a given text (Used in very dynamic table cells)
+- Truncate a string to a certain size
+- Monitor the state of the Internet and receive notification through block
+- Check that the device has an active connection to the Internet
+- Convert the token Push Notification in `NSString`
+- Save a file
+- Mark a file saved as No-Backup (file that should not be copying in sync iCloud)
+- Convert `NSDate` in `NSString` or otherwise
+- Convert `NSDate` in `NSTimeInterval` or otherwise
+- Create a `NSDictionary` from a Query String
+- And anymore...
 
-- Criar uma representação `UIColor` a partir do código RGB
-- Calcular a altura de um terminado texto (Usado bastante em células dinâmicas de tabelas)
-- Truncar uma string em um determinado tamanho
-- Monitorar o estado da internet e receber uma notificação através de block
-- Verificar se o dispositivo possui uma conexão ativa com a internet
-- Converte o Token do Push Notification em `NSString`
-- Salvar um arquivo
-- Marcar um arquivo salvo como No-Backup (Arquivo que não deve ser copiando na sincronização do iCloud)
-- Converter `NSDate` em `NSString` ou virse-versa
-- Converter `NSDate` em `NSTimeInterval` ou virse-versa
-- Criar um `NSDictionary` a partir de uma Query string
-- E muito mais...
+## Generate HelperLibrary.framework ##
 
-## Generate .framework ##
-
-Para gerar o arquivo .framework é super simples, basta selecionar o alvo `Framework`, conforme a imagem abaixo:
+For generate the package HelperLibrary.framework is super simple, only select the target `Framework` and compile the project (⌘+B), see image below:
 
 <div style="float: right"><img src="http://rondinelliharris.xpg.uol.com.br/images/framework_target.png" /></div>
 
-e compilar o projeto (⌘+B).
+In doing so HelperLibrary will create the package `HelperLibrary.framework` in `${PROJECT_DIR}`:
 
-Ao fazer isso HelperLibrary irá criar o pacote `HelperLibrary.framework` em `${PROJECT_DIR}`:
 <div style="float: right"><img width="70%" src="http://rondinelliharris.xpg.uol.com.br/images/generate_framework.png" /></div>
 
 ## Usage ##
@@ -46,7 +43,7 @@ To use the HelperLibrary classes within your application, simply include the cor
 
 ## Basic use ##
 
-##### Monitorar o estado da internet #####
+##### Monitor the state of the Internet #####
 
 ```objective-c
 [[UtilHelper sharedInstance] internetConnectionNotification:^(NetworkStatus remoteHostStatus, BOOL isCurrentState) {
@@ -66,9 +63,9 @@ To use the HelperLibrary classes within your application, simply include the cor
       }
   }];
 ```
-Esse block será chamado toda vez que o estado da internet mudar.
+This block will called every time there is a change in the internet state.
 
-##### Converter `UIView` to `UIImage` #####
+##### Convert `UIView` to `UIImage` #####
 
 ```objective-c
 // create view
@@ -91,9 +88,9 @@ UIImage * sharedImage = [UtilHelper imageWithView:snoopfyView];
 
 ##### Using SQLite database #####
 
-Você pode usar a classe `DBConfigDefault` para gerenciar seu banco .sqlite3
+You can use the class `DBConfigDefault` for manage your database .sqlite3
 
-Os métodos `managerContext` e `managerContextWithDelegate:` são responsáveis por gerenciar todo o processo chato de copiar o arquivo .sqlite3 para o diretório Document/.Private, rodar os arquivos de atualizações (Veja mais na documentação de `DBConfigDefault`) e atualizar a versão do banco. Sua aplicação será notificada através do delegate `dbConfigDefaultDidUpdatedDatabase:newVersion:` se caso houve uma atualização na versão do banco.
+The methods `managerContext` and `managerContextWithDelegate:` are responsible for managing all the boring process: Copy the file .sqlite3 into the directory Document/.Private, run the files of the update (See more in documentation of the `DBConfigDefault`) and update the version of database. Your app will be notified by the delegate `dbConfigDefaultDidUpdatedDatabase:newVersion:` case have the update in version of database.
 
 ```objective-c
 // static function into UtilHelper.h
@@ -104,7 +101,7 @@ NSLog(@"%@", privateDirectory());
 [DBConfigDefault managerContext];
 ```
 
-Com Delegate:
+With delegate:
 
 ```objective-c
 @interface AppDelegate () <DBConfigDefaultDelegate>
@@ -169,7 +166,7 @@ See more list extensions below:
 
 ##### Download Image #####
 
-Fazer o download de imagem dinâmicamente certamente é uma tarefa chata. Você pode utilizar a classe `DownloadManager` para fazer o download de qualquer imagem e manter uma cache em seu aplicativo:
+Make the image download dynamically certainly is a boring task. You can use the `DownloadManager` class to download any image and maintain a cache in your application:
 
 ```objective-c
 NSURL * URL = [NSURL URLWithString:@"https://avatars0.githubusercontent.com/u/3987557?v=3&s=460"];
@@ -181,20 +178,19 @@ NSURL * URL = [NSURL URLWithString:@"https://avatars0.githubusercontent.com/u/39
 }];
 ```
 
-Após a conclusão do download, o cache da imagem é mantido no diretório `/Library/Caches/Images`.
+After the download is complete, the image cache is maintained in the directory `/Library/Caches/Images`.
 
-## Generate documentation Apple ##
+## Generate Apple documentation ##
 
-O projeto foi documentado utilizando o padrão de documentação appledoc. Para gerar a documentação escolha o alvo `Documentation`, conforme a imagem abaixo:
+The project was documented using the standard appledoc. To generate documentation choose the target `Documentation` and compile the project (⌘+B), see the image below:
 
 <div style="float: right"><img src="http://rondinelliharris.xpg.uol.com.br/images/documentation.png" /></div>
 
-e compilar o projeto (⌘+B).
+In doing so HelperLibrary will create the directory `documentation` in `${PROJECT_DIR}` containing all HTML documentation:
 
-Ao fazer isso HelperLibrary irá criar um diretório `documentation` em `${PROJECT_DIR}` contendo todo HTML da documentação:
 <div style="float: right"><img width="70%" src="http://rondinelliharris.xpg.uol.com.br/images/documentation_2.png" /></div>
 
-A documentação também ficará disponível em `Documentation and API Reference (⇧⌘0)` do XCode.
+The documentation will also be available in `Documentation and Reference API (⇧⌘0)` the XCode.
 
 ## Included Libraries ##
   - [FMDB](https://github.com/ccgus/fmdb)
