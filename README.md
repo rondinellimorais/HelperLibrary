@@ -133,12 +133,12 @@ NSLog(@"%@", privateDirectory());
 
 ```objective-c
 [[[UIAlertView alloc] initWithTitle:@"Do you wanna close this page?"
-                              message:nil
-                        completeBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                            NSLog(@"%i", (int)buttonIndex);
-                        }
-                    cancelButtonTitle:@"Cancel"
-                    otherButtonTitles:@"I'm", @"No"] show];
+                                message:nil
+                          completeBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                              NSLog(@"%i", (int)buttonIndex);
+                          }
+                      cancelButtonTitle:@"Cancel"
+                      otherButtonTitles:@"I'm", @"No", @"Home", nil] show];
 ```
 
 `NSDictionary` with override get values
