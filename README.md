@@ -37,6 +37,10 @@ In doing so HelperLibrary will create the package `HelperLibrary.framework` in `
 
 ## Usage ##
 
+After generate the package .framework, drag and drop the HelperLibrary into your XCode project.
+
+Go to `YourProject > Build Settings` within search field enter the text `Other Linker Flags`, double click on `Other Linker Flags` and click in + button, add `-ObjC` flag.
+
 To use the HelperLibrary classes within your application, simply include the core framework header using the following:
 
     #import <HelperLibrary/HelperLibrary.h>
