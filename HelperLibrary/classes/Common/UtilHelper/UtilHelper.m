@@ -487,4 +487,25 @@
     return preferredLang;
 }
 
+// converte NSDictionary em string JSON
++ (NSString*)parseDictionaryToJSON:(NSDictionary*)dictionary {
+    
+    if(!dictionary) return nil;
+    
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    return jsonString;
+}
+
+// converte string JSON em NSDictionary
++ (NSDictionary*)parseJSONToDictionary:(NSString*)jsonString {
+    
+    if(!jsonString) return nil;
+    
+    return [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding]
+                                           options:kNilOptions
+                                             error:nil];
+}
+
 @end

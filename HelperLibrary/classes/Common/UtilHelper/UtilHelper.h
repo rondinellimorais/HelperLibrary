@@ -376,4 +376,23 @@ typedef void (^HelperLibraryReachabilityStatusBlock)(NetworkStatus remoteHostSta
  */
 + (NSString *)preferredUserLanguage;
 
+/**
+ *  Convert NSDictionary object to JSON representation string
+ *  Also, working with NSMutableArray object.
+ *
+ *  @param dictionary a valid NSDictionary or NSMutableArray representation
+ *
+ *  @return JSON string
+ */
++ (NSString*)parseDictionaryToJSON:(NSDictionary*)dictionary;
+
+/**
+ *  Convert JSON string to NSDictionary
+ *
+ *  @param jsonString a valid JSON string representation
+ *
+ *  @return a dictionary representation
+ */
++ (NSDictionary*)parseJSONToDictionary:(NSString*)jsonString;
+
 @end
