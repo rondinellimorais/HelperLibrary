@@ -138,7 +138,7 @@ NSLog(@"%@", privateDirectory());
                               NSLog(@"%i", (int)buttonIndex);
                           }
                       cancelButtonTitle:@"Cancel"
-                      otherButtonTitles:@"I'm", @"No", @"Home", nil] show];
+                      otherButtonTitles:@"Yes", @"No", @"Home", nil] show];
 ```
 
 `NSDictionary` with override get values
