@@ -38,6 +38,6 @@
             message:(NSString *)message
       completeBlock:(void(^)(UIAlertView * alertView, NSInteger buttonIndex))completeBlock
   cancelButtonTitle:(NSString *)cancelButtonTitle
-  otherButtonTitles:(NSString *)otherButtonTitles, ...;
+  otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
 
 @end

@@ -31,11 +31,13 @@ static NSString * completeBlockkey = @"completeBlock";
                       message:(NSString *)message
                 completeBlock:(void(^)(UIAlertView * alertView, NSInteger buttonIndex))completeBlock
             cancelButtonTitle:(NSString *)cancelButtonTitle
-            otherButtonTitles:(NSString *)otherButtonTitles, ... {
+            otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION {
     
     // sava os objetos que serão usado mais tarde
-    NSDictionary * dictionarySaveObjects = [NSDictionary dictionaryWithObjects:@[completeBlock] forKeys:@[completeBlockkey]];
-    objc_setAssociatedObject(self, saveObjectsKey, dictionarySaveObjects, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    if(completeBlock){
+        NSDictionary * dictionarySaveObjects = [NSDictionary dictionaryWithObjects:@[completeBlock] forKeys:@[completeBlockkey]];
+        objc_setAssociatedObject(self, saveObjectsKey, dictionarySaveObjects, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
     
     // adiciona os botoes
     NSMutableArray * arrOtherButtonTitles = [NSMutableArray array];
@@ -80,9 +82,11 @@ static NSString * completeBlockkey = @"completeBlock";
     
     NSDictionary * dictionarySaveObjects = objc_getAssociatedObject(self, saveObjectsKey);
     
-    void(^completeBlock)(UIAlertView * alertView, NSInteger buttonIndex) = [dictionarySaveObjects objectForKey:completeBlockkey];
-    
-    completeBlock(alertView, buttonIndex);
+    if(dictionarySaveObjects){
+        void(^completeBlock)(UIAlertView * alertView, NSInteger buttonIndex) = [dictionarySaveObjects objectForKey:completeBlockkey];
+        if(completeBlock)
+            completeBlock(alertView, buttonIndex);
+    }
 }
 
 @end
