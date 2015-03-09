@@ -90,43 +90,6 @@ chickenLegImageView.center = snoopfyView.center;
 UIImage * sharedImage = [UtilHelper imageWithView:snoopfyView];
 ```
 
-##### Using SQLite database #####
-
-You can use the class `DBConfigDefault` for manage your database .sqlite3
-
-The methods `managerContext` and `managerContextWithDelegate:` are responsible for managing all the boring process: Copy the file .sqlite3 into the directory Document/.Private, run the files of the update (See more in documentation of the `DBConfigDefault`) and update the version of database. Your app will be notified by the delegate `dbConfigDefaultDidUpdatedDatabase:newVersion:` case have the update in version of database.
-
-```objective-c
-// static function into UtilHelper.h
-NSLog(@"%@", privateDirectory());
-
-// Copy database in bundle to privateDirectory()
-// If exists file of update, execute!
-[DBConfigDefault managerContext];
-```
-
-With delegate:
-
-```objective-c
-@interface AppDelegate () <DBConfigDefaultDelegate>
-@end
-
-// static function into UtilHelper.h
-NSLog(@"%@", privateDirectory());
-
-// Copy database in bundle to privateDirectory()
-// If exists file of update, execute!
-[DBConfigDefault managerContextWithDelegate:self];
-
-#pragma mark - DBConfigDefaultDelegate
-- (void)dbConfigDefaultDidUpdatedDatabase:(CGFloat)oldVersion newVersion:(CGFloat)newVersion {
-    if(newVersion > oldVersion){
-        NSLog(@"now I'm using a new version of database!");
-    }
-}
-
-```
-
 ##### Extensions #####
 
 `UIAlertView` with block:
@@ -183,6 +146,88 @@ NSURL * URL = [NSURL URLWithString:@"https://avatars0.githubusercontent.com/u/39
 ```
 
 After the download is complete, the image cache is maintained in the directory `/Library/Caches/Images`.
+
+## Using SQLite database ##
+
+HelperLibrary can deal very well with the database, and use the API [FMDB] (https://github.com/ccgus/fmdb) to do all the hard work of dealing with SQLite.
+
+However there is a basic configuration that you must do to integrate with the database to function as we expect:
+
+##### Create the file .sqlite3 #####
+
+First create the database file, use any program to do this or even the terminal.
+From the name you want to your file with the extension you want, the most common are: .db, .sqlite, .sqlite3 and .sql, HelperLibrary works with .sqlite3 extension, but feel comfortable with the name and extension your database file.
+
+##### Specify the database name into plist #####
+
+Is necessary add a new row into your plist with the name `SQLiteName` and value with the name of your database file. By default `DBBase` will search by `PRODUCT_NAME.sqlite3`.
+
+##### Include a table ConfigDefault #####
+
+The class `DBConfigDefault` uses a table to maintain and update the version of the database, take the query below and perform at your database:
+
+```sql
+DROP TABLE IF EXISTS ConfigDefault;
+CREATE TABLE ConfigDefault (
+    cdf_id                 	INTEGER PRIMARY KEY,
+    cdf_dsc					VARCHAR(30),		
+    cdf_vle					VARCHAR(100)
+);
+
+-- Use this line to informe initialize database version
+INSERT INTO ConfigDefault VALUES (null, 'APP_VERSION', '1.0');
+```
+With this, you are ready to use SQLite in your project.
+
+You can use the class `DBConfigDefault` for manage your database .sqlite3
+
+The methods `managerContext` and `managerContextWithDelegate:` are responsible for managing all the boring process: 
+- Copy the file .sqlite3 into the directory Document/.Private, 
+- Run the files of the update (See more in documentation of the `DBConfigDefault`)
+- Update the version of database. Your app will be notified by the delegate `dbConfigDefaultDidUpdatedDatabase:newVersion:` case have the update in version of database.
+
+Add this code in your `AppDelegate`:
+
+```objective-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    // static function into UtilHelper.h
+    NSLog(@"%@", privateDirectory());
+    
+    // Copy database in bundle to privateDirectory()
+    // If exists file of update, execute!
+    [DBConfigDefault managerContext];
+
+    return YES;
+}
+```
+
+With delegate:
+
+```objective-c
+@interface AppDelegate () <DBConfigDefaultDelegate>
+@end
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    // static function into UtilHelper.h
+    NSLog(@"%@", privateDirectory());
+    
+    // Copy database in bundle to privateDirectory()
+    // If exists file of update, execute!
+    [DBConfigDefault managerContextWithDelegate:self];
+
+    return YES;
+}
+
+#pragma mark - DBConfigDefaultDelegate
+- (void)dbConfigDefaultDidUpdatedDatabase:(CGFloat)oldVersion newVersion:(CGFloat)newVersion {
+    if(newVersion > oldVersion){
+        NSLog(@"now I'm using a new version of database!");
+    }
+}
+
+```
 
 ## Generate Apple documentation ##
 
