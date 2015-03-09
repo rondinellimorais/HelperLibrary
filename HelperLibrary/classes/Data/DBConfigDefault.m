@@ -21,6 +21,10 @@
 
 #import "DBConfigDefault.h"
 
+@interface DBConfigDefault ()
+
+@end
+
 @implementation DBConfigDefault
 
 // ------------------------------------------------------------------------
@@ -71,7 +75,7 @@
     {
         BOOL isUpdateDatabase = YES;
 
-        // Lista os arquivos de update
+        // List files of the update
         NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         
@@ -80,8 +84,7 @@
         NSPredicate * predicate = [NSPredicate predicateWithFormat:@"self BEGINSWITH 'db-script-update-'"];
         NSArray *scriptsUpdate = [dirContents filteredArrayUsingPredicate:predicate];
         
-
-        // verifica se há scripts de atualizações para esta versão
+        // Verify if contains scripts for updates for this new version
         __block NSMutableArray * scriptsForUpdate = [NSMutableArray new];
         
         CGFloat versions = dbVersion;
@@ -101,22 +104,22 @@
         {
             [scriptsForUpdate enumerateObjectsUsingBlock:^(NSString * scriptUpdate, NSUInteger idx, BOOL *stop) {
                 
-                // executa o script
-                NSLog(@"Executando script de atualização SQL: %@", scriptUpdate);
+                // excute the script
+                NSLog(@"Executing script update SQL: %@", scriptUpdate);
                 
                 NSString *pathScriptUpdate = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:scriptUpdate];
                 BOOL sucesso = [self executeScriptUpdate:pathScriptUpdate];
                 
                 if(sucesso){
-                    NSLog(@"script de atualização '%@' executado com sucesso!", scriptUpdate);
+                    NSLog(@"Script update '%@' executed!", scriptUpdate);
                     numberOfScripts--;
                 }
                 else {
-                    NSLog(@"ocorreu um erro ao executar o script '%@' de atualização!", scriptUpdate);
+                    NSLog(@"Error on script update: %@", scriptUpdate);
                 }
             }];
             
-            // verifica se executou com sucesso todos os scripts
+            // Verify if executed all scripts with success
             isUpdateDatabase = (numberOfScripts == 0);
         }
         
@@ -169,9 +172,9 @@
     NSString *fileString = [NSString stringWithContentsOfFile:pathScriptUpdate encoding:NSUTF8StringEncoding error:nil];
     
 #if DEBUG
-    NSLog(@"*************** INICIO DO ARQUIVO ***************************************");
+    NSLog(@"*************** BEGIN FILE ***************************************");
     NSLog(@"\n\n%@\n", fileString);
-    NSLog(@"*************** FIM DO ARQUIVO ******************************************\n\n");
+    NSLog(@"*************** BEGIN FILE ******************************************\n\n");
 #endif
     
     return fileString;
@@ -181,9 +184,9 @@
     
     CGFloat version = 0.0;
     
-    FMResultSet * rs = [[self db] executeQuery:@" select ssc_vlr from configdefault where upper(ssc_dsc) like 'APP_VERSION' or 'VERSAO_APP' "];
+    FMResultSet * rs = [[self db] executeQuery:@" select cdf_vle from ConfigDefault where upper(cdf_dsc) like 'APP_VERSION' "];
     while ([rs next]) {
-        version = [rs doubleForColumn:@"ssc_vlr"];
+        version = [rs doubleForColumn:@"cdf_vle"];
     }
     
     return version;
@@ -193,9 +196,9 @@
     
     NSString * appversion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     
-    NSLog(@"Atualizando versão do banco: %@", appversion);
+    NSLog(@"Update database version: %@", appversion);
     
-    if([[self db] executeUpdate:@" update configdefault set ssc_vlr = ? where upper(ssc_dsc) like 'APP_VERSION' ", appversion]){
+    if([[self db] executeUpdate:@" update ConfigDefault set cdf_vle = ? where upper(cdf_dsc) like 'APP_VERSION' ", appversion]){
         
         if([_delegate respondsToSelector:@selector(dbConfigDefaultDidUpdatedDatabase:newVersion:)]){
             [_delegate dbConfigDefaultDidUpdatedDatabase:oldVersion newVersion:newVersion];

@@ -85,6 +85,13 @@
 
 - (NSString*)dbName {
     
+    // Verify if database name is a custom name
+    NSString *SQLiteName = [[[NSBundle mainBundle] infoDictionary]  objectForKey:@"SQLiteName"];
+    
+    if(SQLiteName)
+        return SQLiteName;
+    
+    // If NO, use PRODUCT_NAME.sqlite3
     __block NSString * dbName = nil;
     NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
     NSFileManager *fileManager = [NSFileManager defaultManager];

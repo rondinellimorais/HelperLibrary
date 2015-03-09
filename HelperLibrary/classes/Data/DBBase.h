@@ -24,8 +24,10 @@
 /**
  *  `DBBase` is a base class to be used in all classes that need access to local database
  *
- *  @warning The inheritance of this class ensures the copy of the database file directory `PRODUCT_NAME.sqlite` for `privateDirectory()`
- *  Only check if this file exists in bundle
+ *  @warning This class ensures the copy of the database file in bundle for directory `privateDirectory()`
+ *
+ *  @discussion It is necessary to inform the database name in 'SQLiteName' in the plist. By default we use `PRODUCT_NAME.sqlite3`
+ *
  */
 @interface DBBase : NSObject
 
