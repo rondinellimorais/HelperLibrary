@@ -229,6 +229,56 @@ With delegate:
 
 ```
 
+#### Creating your DB class extension DBBase ####
+
+Assuming you have a database table called `ItemDashboard`, their representation in class would be:
+
+```objective-c
+// DBItemDashboard.h extends DBBase
+@interface DBItemDashboard : DBBase
+//....Your public methods
+@end
+```
+
+```objective-c
+// DBItemDashboard.m
+@implementation DBItemDashboard
+
+#pragma mark - Public Methods
+- (BOOL)add:(NSString*)identifier index:(NSInteger)index msisdn:(NSString*)msisdn {
+    
+    return [[self db] executeUpdate:@" INSERT INTO ItemDashboard (_id, Identifier, OrderIndex, Msisdn) VALUES (NULL, ?, ?, ?) ",
+            identifier, @(index), msisdn];
+}
+
+- (BOOL)deleteWithIdentifier:(NSString*)identifier msisdn:(NSString*)msisdn {
+    return [[self db] executeUpdate:@" DELETE FROM ItemDashboard WHERE Identifier = ? AND Msisdn = ? ", identifier, msisdn];
+}
+
+- (NSMutableArray*)itemsAtMsisdn:(NSString*)msisdn {
+    
+    NSMutableArray * itens = nil;
+    
+    FMResultSet * rs = [[self db] executeQuery:@" SELECT Identifier FROM ItemDashboard WHERE Msisdn = ? ORDER BY OrderIndex ", msisdn];
+    
+    while ([rs next]) {
+        
+        if(!itens){
+            itens = [NSMutableArray new];
+        }
+        [itens addObject:[rs stringForColumn:@"Identifier"]];
+    }
+    return itens;
+}
+
+- (BOOL)exchangeIndex:(NSUInteger)srcIndex withIndex:(NSUInteger)destIndex msisdn:(NSString*)msisdn {
+    
+    return [[self db] executeUpdate:@" UPDATE ItemDashboard SET OrderIndex = CASE WHEN OrderIndex = ? THEN ? ELSE ? END WHERE OrderIndex IN (?,?) AND Msisdn = ? ",
+                                @(srcIndex), @(destIndex), @(srcIndex), @(destIndex), @(srcIndex), msisdn];
+}
+@end
+```
+
 ## Generate Apple documentation ##
 
 The project was documented using the standard appledoc. To generate documentation choose the target `Documentation` and compile the project (⌘+B), see the image below:
