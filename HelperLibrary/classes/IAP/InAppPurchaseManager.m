@@ -149,8 +149,6 @@
 - (void)provideContentForProductIdentifier:(NSString *)productIdentifier {
     
     [_purchasedProductIdentifiers addObject:productIdentifier];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:productIdentifier];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 
     if([_delegate respondsToSelector:@selector(productPurchased:)]){
         [_delegate productPurchased:productIdentifier];
