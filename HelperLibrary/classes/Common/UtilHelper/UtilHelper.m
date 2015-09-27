@@ -81,7 +81,7 @@
 }
 
 - (void)reachabilityPause {
-    [self.reachability startNotifier];
+    [self.reachability stopNotifier];
 }
 
 - (void)reachabilityResume {
