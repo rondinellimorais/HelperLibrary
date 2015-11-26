@@ -70,6 +70,7 @@
 		186FAA6A18AEACBA00B6FC26 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186FAA6918AEACBA00B6FC26 /* SystemConfiguration.framework */; };
 		186FAA6C18AEACC800B6FC26 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186FAA6B18AEACC800B6FC26 /* CFNetwork.framework */; };
 		188D0F7219E72C9E0081B713 /* TCCustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B2ECC918BBD0E500C5AC34 /* TCCustomFont.m */; };
+		18D176FD1C07914F00339EB9 /* Localizable.strings in Copy Files */ = {isa = PBXBuildFile; fileRef = 18D176FB1C07905900339EB9 /* Localizable.strings */; };
 		18DF7BBC19F5497600DB86F9 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DF7BBA19F5497600DB86F9 /* Reachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18DF7BBD19F5497600DB86F9 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DF7BBB19F5497600DB86F9 /* Reachability.m */; };
 		18DF7BC319F56C4400DB86F9 /* DownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DF7BC119F56C4400DB86F9 /* DownloadManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -101,6 +102,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				18D176FD1C07914F00339EB9 /* Localizable.strings in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,6 +141,8 @@
 		186FAA6918AEACBA00B6FC26 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		186FAA6B18AEACC800B6FC26 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		18B2ECC918BBD0E500C5AC34 /* TCCustomFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCCustomFont.m; sourceTree = "<group>"; };
+		18D176FA1C07905900339EB9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		18D176FC1C07905A00339EB9 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		18DF7BBA19F5497600DB86F9 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		18DF7BBB19F5497600DB86F9 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		18DF7BC119F56C4400DB86F9 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
@@ -260,6 +264,7 @@
 		1837E84F18AE870900225DC5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				18D176FB1C07905900339EB9 /* Localizable.strings */,
 				1837E85018AE870900225DC5 /* HelperLibrary-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -610,6 +615,18 @@
 			targetProxy = 1835D58C19E7194D0000FA86 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		18D176FB1C07905900339EB9 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18D176FA1C07905900339EB9 /* en */,
+				18D176FC1C07905A00339EB9 /* pt */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1835D58A19E719410000FA86 /* Debug */ = {
