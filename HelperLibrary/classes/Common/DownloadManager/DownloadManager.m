@@ -22,7 +22,7 @@
 #import "DownloadManager.h"
 
 @interface DownloadManager ()
-@property (nonatomic, retain) NSString * imageCacheDirectory;
+
 @end
 
 @implementation DownloadManager
@@ -35,7 +35,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.imageCacheDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Caches/Images"];
+        self.cacheDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Caches/Images"];
     }
     return self;
 }
@@ -57,7 +57,7 @@
 - (void)imageWithURL:(NSURL*)imageURL completeBlock:(void(^)(UIImage*image))completeBlock {
     
     // return file if exists
-    NSString *fullPath = [self.imageCacheDirectory stringByAppendingPathComponent:[imageURL path]];
+    NSString *fullPath = [self.cacheDirectory stringByAppendingPathComponent:[imageURL path]];
     if ([[NSFileManager defaultManager] fileExistsAtPath:fullPath])
     {
         if(completeBlock){
@@ -71,7 +71,7 @@
     NSString *fileName = [imageURL lastPathComponent];
     NSString *fullPathFile = [[imageURL path] stringByDeletingLastPathComponent];
     
-    NSString *directory = [self.imageCacheDirectory stringByAppendingPathComponent:fullPathFile];
+    NSString *directory = [self.cacheDirectory stringByAppendingPathComponent:fullPathFile];
     
     // create directory
     NSError *error = nil;
@@ -106,6 +106,28 @@
     
     // error
     else if(completeBlock)completeBlock(nil);
+}
+
+
+- (BOOL)saveImageWithURL:(NSURL*)imageURL imageData:(NSData*)imageData {
+    
+    NSAssert(imageData!=nil, @"imageData can't be nil");
+    
+    NSString *fileName = [imageURL lastPathComponent];
+    NSString *fullPathFile = [[imageURL path] stringByDeletingLastPathComponent];
+    
+    NSString *directory = [self.cacheDirectory stringByAppendingPathComponent:fullPathFile];
+    
+    // create directory
+    NSError *error = nil;
+    [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
+    
+    if (error == nil) {
+        return [imageData writeToFile:[NSString stringWithFormat:@"%@/%@", directory, fileName] atomically:YES];
+    }
+    
+    NSLog(@"%@ : %@", NSStringFromSelector(_cmd), error.localizedDescription);
+    return NO;
 }
 
 @end

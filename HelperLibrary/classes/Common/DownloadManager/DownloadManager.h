@@ -26,6 +26,15 @@
  */
 @interface DownloadManager : NSObject
 
+///---------------------------------------------
+/// @name Propertiers
+///---------------------------------------------
+
+/**
+ * Directory where the images are stored
+ */
+@property (nonatomic, retain) NSString * cacheDirectory;
+
 // ------------------------------------------------------------------------
 // Public static methods
 // ------------------------------------------------------------------------
@@ -51,5 +60,17 @@
  *                       complete with success
  */
 - (void)imageWithURL:(NSURL*)imageURL completeBlock:(void(^)(UIImage*image))completeBlock;
+
+
+/**
+ * Save the image in cache
+ *
+ * @param imageURL      The URL valid of image
+ * @param imageData     Data of image to be stored
+ *
+ * @discussion Use this method if you are using some image upload API (eg: Cloudinary, Imgur, Flickr, etc.), 
+ * where you have the URL of the image and the image discarding the need to download.
+ */
+- (BOOL)saveImageWithURL:(NSURL*)imageURL imageData:(NSData*)imageData;
 
 @end

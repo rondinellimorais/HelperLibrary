@@ -48,18 +48,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNetworkChange:)
                                                  name:kReachabilityChangedNotification object:nil];
     
-    if (&UIApplicationDidEnterBackgroundNotification && &UIApplicationWillEnterForegroundNotification)
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(reachabilityPause)
-                                                     name:UIApplicationDidEnterBackgroundNotification
-                                                   object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(reachabilityResume)
-                                                     name:UIApplicationWillEnterForegroundNotification
-                                                   object:nil];
-    }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reachabilityPause)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reachabilityResume)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
     
     _reachability = [Reachability reachabilityForInternetConnection];
     if([_reachability startNotifier]){
