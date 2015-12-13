@@ -73,4 +73,6 @@
  */
 - (BOOL)saveImageWithURL:(NSURL*)imageURL imageData:(NSData*)imageData;
 
+- (BOOL)releaseCacheAtURL:(NSURL*)url;
+
 @end

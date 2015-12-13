@@ -130,4 +130,18 @@
     return NO;
 }
 
+- (BOOL)releaseCacheAtURL:(NSURL*)url {
+    
+    NSString *fullPathFile = [[url path] stringByDeletingLastPathComponent];
+    NSString *directory = [self.cacheDirectory stringByAppendingPathComponent:fullPathFile];
+    
+    NSError *error = nil;
+    if ([[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:directory] error:&error] && error == nil){
+        return YES;
+    }
+    
+    NSLog(@"%@ : %@", NSStringFromSelector(_cmd), error.localizedDescription);
+    return NO;
+}
+
 @end
