@@ -1,3 +1,7 @@
+# THIS REPO IS DEPRECATED
+
+Thank you for using HelperLibrary, but this repo is deprecated. Now we have a new framework, this is call [RMExtensionKit](https://github.com/rondinellimorais/RMExtensionKit)
+
 # HelperLibrary
 
 Rondinelli Morais
